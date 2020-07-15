@@ -1,7 +1,7 @@
 import createReducer from './createReducer';
 import * as ActionType from '../actions/types';
 
-interface TwitReducerState {}
+export interface TwitReducerState {}
 
 const initialState = {};
 

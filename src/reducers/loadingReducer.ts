@@ -1,7 +1,7 @@
 import createReducer from './createReducer';
 import * as ActionType from '../actions/types';
 
-interface LoadingReducerState {
+export interface LoadingReducerState {
   isLoading: boolean;
 }
 
