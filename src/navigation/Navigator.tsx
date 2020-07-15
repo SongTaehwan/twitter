@@ -2,7 +2,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { NavigationContainer } from '@react-navigation/native';
 import {
   createStackNavigator,
-  TransitionSpecs,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
