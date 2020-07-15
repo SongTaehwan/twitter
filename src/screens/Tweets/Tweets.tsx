@@ -1,16 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface Props {}
 
 const Tweets = (props: Props) => {
   return (
-    <View style={styles.container}>
-      <Image
-        resizeMode={'contain'}
-        source={require('../../../assets/twitter.png')}
-        style={{ widht: 100, height: 82 }}
-      />
+    <View>
+      <Text>123</Text>
     </View>
   );
 };

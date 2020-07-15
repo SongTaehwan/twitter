@@ -1,15 +1,18 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { NavigationContainer, TabRouter } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import RNSplash from 'react-native-bootsplash';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  createStackNavigator,
+  TransitionSpecs,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import 'react-native-gesture-handler';
 import * as React from 'react';
+import { LoadingReducerState } from '@reducers/loadingReducer';
+import { navigationRef } from '@navigation';
 import Splash from '@screens/Splash';
 import Tweets from '@screens/Tweets';
 import { Routes, TabRoutes } from './routes';
-import { LoadingReducerState } from '@reducers/loadingReducer';
-import { navigationRef } from '@navigation';
 
 const Tab = createMaterialTopTabNavigator<TabRoutes>();
 
@@ -38,9 +41,23 @@ const ServiceStackNavigator = (): JSX.Element => {
       <ServiceStack.Screen
         name="Splash"
         component={Splash}
-        options={{ header: undefined }}
+        options={{ headerShown: false, gestureEnabled: false }}
       />
-      <ServiceStack.Screen name="Main" component={TopTabNavigator} />
+      <ServiceStack.Screen
+        name="Main"
+        component={TopTabNavigator}
+        options={{
+          headerStyle: {
+            borderBottomWidth: 0,
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+          },
+          cardStyleInterpolator:
+            CardStyleInterpolators.forFadeFromBottomAndroid,
+        }}
+      />
     </ServiceStack.Navigator>
   );
 };
