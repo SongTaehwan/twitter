@@ -18,6 +18,7 @@
       "@actions": ["actions/index.ts"],
       "@screens/*": ["screens/*"],
       "@reducers/*": ["reducers/*"],
+      "@constants": ["constants/index.ts"],
       "@navigation": ["navigation/index.ts"],
       "@components": ["components/index.ts"]
     }
