@@ -43,7 +43,7 @@ const ServiceStackNavigator = (): JSX.Element => {
             ...Platform.select({
               ios: {
                 left: 0,
-                paddingVertical: 5,
+                paddingVertical: 3,
               },
               android: {
                 left: 48,

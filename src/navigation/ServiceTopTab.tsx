@@ -17,6 +17,7 @@ function ServiceTopTabNavigator() {
         labelStyle: {
           fontWeight: 'bold',
           textTransform: 'none',
+          fontSize: 15,
         },
         pressColor: 'rgba(27, 148, 224, 0.1)',
         indicatorStyle: {
