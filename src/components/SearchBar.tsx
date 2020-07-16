@@ -8,8 +8,8 @@ interface SearchBarProps {}
 const SearchBar = ({}: SearchBarProps) => {
   return (
     <View style={styles.container}>
-      <Icon name={'magnifier'} size={20} />
-      <TextInput />
+      <Icon name={'magnifier'} size={20} color={Colors.grey} />
+      <TextInput style={styles.input} />
     </View>
   );
 };
@@ -18,11 +18,15 @@ export default SearchBar;
 
 const styles = StyleSheet.create({
   container: {
-    paddingLeft: 10,
-    // flex: 1,
-    width: '100%',
+    paddingLeft: 20,
+    flexGrow: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: Colors.tweetBackground,
+    backgroundColor: Colors.tweetBackground,
+    borderRadius: 20,
+  },
+  input: {
+    flexGrow: 1,
+    padding: 10,
   },
 });

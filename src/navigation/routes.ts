@@ -8,5 +8,5 @@ export type TabRoutes = {
   Latest: undefined;
   People: undefined;
   Photos: undefined;
-  Video: undefined;
+  Videos: undefined;
 };

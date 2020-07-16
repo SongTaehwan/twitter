@@ -2,6 +2,7 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
+import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import React from 'react';
 import { LoadingReducerState } from '@reducers/loadingReducer';
@@ -39,19 +40,30 @@ const ServiceStackNavigator = (): JSX.Element => {
             return <SearchBar />;
           },
           headerTitleContainerStyle: {
-            positioin: 'relative',
+            ...Platform.select({
+              ios: {
+                left: 0,
+                paddingVertical: 5,
+              },
+              android: {
+                left: 48,
+                paddingVertical: 10,
+              },
+            }),
             flex: 1,
             flexDirection: 'row',
-            backgroundColor: 'orange',
+            right: 48,
+            height: '100%',
+            paddingHorizontal: 20,
             marginRight: 0,
+            marginLeft: Platform.OS === 'ios' ? 48 : 0,
           },
           headerLeftContainerStyle: {
             paddingLeft: 10,
-            backgroundColor: 'green',
           },
           headerRightContainerStyle: {
+            position: Platform.OS === 'ios' ? 'relative' : 'absolute',
             paddingRight: 10,
-            backgroundColor: 'green',
           },
           headerStyle: {
             elevation: 0,
