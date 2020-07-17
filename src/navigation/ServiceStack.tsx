@@ -10,6 +10,41 @@ import Splash from '@screens/Splash';
 import ServiceTopTabNavigator from './ServiceTopTab';
 import { Routes } from './routes';
 import { ArrowButton, HorizontalDots, SearchBar } from '@components';
+import { navigationRef } from './NavigationHelper';
+
+const tabHeaderStyle = {
+  headerTitleContainerStyle: {
+    ...Platform.select({
+      ios: {
+        left: 0,
+        paddingVertical: 3,
+      },
+      android: {
+        left: 48,
+        paddingVertical: 9,
+      },
+    }),
+    flex: 1,
+    flexDirection: 'row',
+    right: 48,
+    height: '100%',
+    paddingHorizontal: 20,
+    marginRight: 0,
+    marginLeft: Platform.OS === 'ios' ? 48 : 0,
+  },
+  headerLeftContainerStyle: {
+    paddingLeft: 10,
+  },
+  headerRightContainerStyle: {
+    position: Platform.OS === 'ios' ? 'relative' : 'absolute',
+    paddingRight: 10,
+  },
+  headerStyle: {
+    elevation: 0,
+    shadowOpacity: 0,
+  },
+  cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+};
 
 const ServiceStack = createStackNavigator<Routes>();
 
@@ -30,8 +65,12 @@ const ServiceStackNavigator = (): JSX.Element => {
         name="Main"
         component={ServiceTopTabNavigator}
         options={{
-          headerLeft: () => {
-            return <ArrowButton />;
+          headerLeft: ({ canGoBack }) => {
+            const backHandler = canGoBack
+              ? navigationRef.current?.goBack
+              : undefined;
+
+            return <ArrowButton onPress={backHandler} />;
           },
           headerRight: () => {
             return <HorizontalDots />;
@@ -39,38 +78,7 @@ const ServiceStackNavigator = (): JSX.Element => {
           headerTitle: () => {
             return <SearchBar />;
           },
-          headerTitleContainerStyle: {
-            ...Platform.select({
-              ios: {
-                left: 0,
-                paddingVertical: 3,
-              },
-              android: {
-                left: 48,
-                paddingVertical: 10,
-              },
-            }),
-            flex: 1,
-            flexDirection: 'row',
-            right: 48,
-            height: '100%',
-            paddingHorizontal: 20,
-            marginRight: 0,
-            marginLeft: Platform.OS === 'ios' ? 48 : 0,
-          },
-          headerLeftContainerStyle: {
-            paddingLeft: 10,
-          },
-          headerRightContainerStyle: {
-            position: Platform.OS === 'ios' ? 'relative' : 'absolute',
-            paddingRight: 10,
-          },
-          headerStyle: {
-            elevation: 0,
-            shadowOpacity: 0,
-          },
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
+          ...tabHeaderStyle,
         }}
       />
     </ServiceStack.Navigator>

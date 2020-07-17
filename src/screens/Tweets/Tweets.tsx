@@ -5,8 +5,8 @@ interface Props {}
 
 const Tweets = (props: Props) => {
   return (
-    <View>
-      <Text>123</Text>
+    <View style={styles.container}>
+      <Text>Try searching for people, topics, or keywords</Text>
     </View>
   );
 };
@@ -18,6 +18,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#00a3fa',
   },
 });
