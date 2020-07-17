@@ -1,12 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 interface Props {}
 
 const Tweets = (props: Props) => {
   return (
     <View style={styles.container}>
-      <Text>Try searching for people, topics, or keywords</Text>
+      <ScrollView>
+        <View style={{ height: 200 }}>
+          <Text>History</Text>
+        </View>
+        <View style={{ height: 200 }}>
+          <Text>History</Text>
+        </View>
+        <View style={{ height: 200 }}>
+          <Text>History</Text>
+        </View>
+        <View style={{ height: 200 }}>
+          <Text>History</Text>
+        </View>
+      </ScrollView>
     </View>
   );
 };

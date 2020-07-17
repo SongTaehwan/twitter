@@ -9,8 +9,8 @@ import { LoadingReducerState } from '@reducers/loadingReducer';
 import Splash from '@screens/Splash';
 import ServiceTopTabNavigator from './ServiceTopTab';
 import { Routes } from './routes';
-import { ArrowButton, HorizontalDots, SearchBar } from '@components';
-import { navigationRef } from './NavigationHelper';
+import { TabHeader } from '@components';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const tabHeaderStyle = {
   headerTitleContainerStyle: {
@@ -65,20 +65,11 @@ const ServiceStackNavigator = (): JSX.Element => {
         name="Main"
         component={ServiceTopTabNavigator}
         options={{
-          headerLeft: ({ canGoBack }) => {
-            const backHandler = canGoBack
-              ? navigationRef.current?.goBack
-              : undefined;
-
-            return <ArrowButton onPress={backHandler} />;
-          },
-          headerRight: () => {
-            return <HorizontalDots />;
-          },
-          headerTitle: () => {
-            return <SearchBar />;
-          },
-          ...tabHeaderStyle,
+          header: () => (
+            <SafeAreaView edges={['top']}>
+              <TabHeader />
+            </SafeAreaView>
+          ),
         }}
       />
     </ServiceStack.Navigator>
