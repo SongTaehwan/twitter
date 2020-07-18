@@ -15,9 +15,11 @@
     "esModuleInterop": true,
     "paths": {
       "*": ["node_modules/*"],
-      "@actions": ["actions/index.ts"],
+      "@models/*": ["models/*"],
       "@screens/*": ["screens/*"],
       "@reducers/*": ["reducers/*"],
+      "@selectors/*": ["selectors/*"],
+      "@actions": ["actions/index.ts"],
       "@constants": ["constants/index.ts"],
       "@navigation": ["navigation/index.ts"],
       "@components": ["components/index.ts"]

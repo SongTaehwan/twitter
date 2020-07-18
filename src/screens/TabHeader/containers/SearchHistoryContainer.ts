@@ -1,14 +1,8 @@
 import { connect } from 'react-redux';
 import SearchHistory from '../SearchHistory';
+import { getHistory } from '@selectors/history';
+import { Store } from '@models/store';
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-  };
-};
+const mapStateToProps = (state: Store) => ({ history: getHistory(state) });
 
-const mapDispatchToProps = {
-  // ... normally is an object full of action creators
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchHistory);
+export default connect(mapStateToProps, {})(SearchHistory);

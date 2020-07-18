@@ -1,5 +1,5 @@
-import * as searchHistory from './searchHistoryReducer';
-import * as loading from './loadingReducer';
-import * as tweet from './tweetReducer';
+import * as searchHistories from './searchHistoryReducer';
+import * as loadingState from './loadingReducer';
+import * as tweets from './tweetReducer';
 
-export default Object.assign(loading, searchHistory, tweet);
+export default Object.assign(loadingState, searchHistories, tweets);
