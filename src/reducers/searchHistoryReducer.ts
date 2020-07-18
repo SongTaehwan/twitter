@@ -1,6 +1,6 @@
+import { HistoryState } from '@models/reducers/searchHistory';
 import createReducer from './createReducer';
 import * as ActionType from '../actions/types';
-import { HistoryState } from '@models/reducers/searchHistory';
 import {
   HistoryAdditionAction,
   HistoryRemovalAction,
@@ -34,5 +34,8 @@ export const searchHistories = createReducer(initialState, {
     return {
       allIds: state.allIds.filter((id) => id !== action.id),
     };
+  },
+  [ActionType.RESET_HISTORY]() {
+    return initialState;
   },
 });

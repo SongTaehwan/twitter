@@ -2,8 +2,8 @@ import { useSafeArea } from 'react-native-safe-area-context';
 import React, { createRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from '@constants';
-import SearchHeader from './SearchHeader';
 import SearchHistory from './containers/SearchHistoryContainer';
+import SearchHeader from './SearchHeader';
 
 interface TabHeaderProps {}
 
@@ -11,8 +11,7 @@ interface TabHeaderProps {}
 const TabHeader = ({}: TabHeaderProps) => {
   const { top: safeAreaTop } = useSafeArea();
   const [containerYOffset, setPosition] = useState(0);
-
-  const [focused, setFocus] = useState(false);
+  const [openHistory, setOpenHistory] = useState(false);
   const [text, setText] = useState('');
   const containerRef = createRef<View>();
 
@@ -35,17 +34,15 @@ const TabHeader = ({}: TabHeaderProps) => {
     setText('');
   };
 
-  const onFocusInput = () => {
-    setFocus(true);
+  const showHistory = () => {
+    setOpenHistory(true);
   };
 
-  const onBlurInput = () => {
-    setFocus(false);
+  const closeHistory = () => {
+    setOpenHistory(false);
   };
 
-  const handleOnSubmit = () => {
-    onBlurInput();
-  };
+  const handleOnSubmit = () => {};
 
   return (
     <View
@@ -54,13 +51,13 @@ const TabHeader = ({}: TabHeaderProps) => {
       onLayout={getContainerPosition}>
       <SearchHeader
         value={text}
-        onFocus={onFocusInput}
-        onBackButtonPress={onBlurInput}
+        onFocusInput={showHistory}
+        onBackButtonPress={closeHistory}
         onChangeText={onChangeText}
         onClearButtonPress={onCleaText}
         onSubmit={handleOnSubmit}
       />
-      {focused ? <SearchHistory parentYOffset={containerYOffset} /> : null}
+      {openHistory ? <SearchHistory parentYOffset={containerYOffset} /> : null}
     </View>
   );
 };

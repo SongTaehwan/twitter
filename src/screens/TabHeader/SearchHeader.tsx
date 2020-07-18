@@ -8,8 +8,8 @@ import { Colors } from '@constants';
 
 interface SearchBarProps {
   value?: string;
-  onFocus?(): void;
-  onBlur?(): void;
+  onFocusInput?(): void;
+  onBlurInput?(): void;
   onBackButtonPress?(): void;
   onClearButtonPress?(): void;
   onChangeText?(text: string): void;
@@ -18,14 +18,15 @@ interface SearchBarProps {
 
 const SearchHeader = ({
   value,
-  onFocus = () => null,
-  onBlur = () => null,
+  onFocusInput = () => null,
+  onBlurInput = () => null,
   onBackButtonPress = () => null,
   onClearButtonPress = () => null,
   onChangeText,
   onSubmit,
 }: SearchBarProps) => {
   const [showSetting, setShowSetting] = useState(false);
+  const [focus, setFocus] = useState(false);
   const inputRef = useRef<TextInput>();
 
   const setRef = (node: TextInput) => {
@@ -41,6 +42,16 @@ const SearchHeader = ({
     }
   };
 
+  const onFocus = () => {
+    setFocus(true);
+    onFocusInput();
+  };
+
+  const onBlur = () => {
+    setFocus(false);
+    onBlurInput();
+  };
+
   const clearText = () => {
     if (inputRef.current) {
       inputRef.current.clear();
@@ -52,18 +63,20 @@ const SearchHeader = ({
     setShowSetting((prev) => !prev);
   };
 
-  const isFocused = inputRef.current?.isFocused();
-
   const inputStyle = {
-    backgroundColor: isFocused ? Colors.white : Colors.tweetBackground,
-    borderColor: isFocused ? Colors.twitterBlue : Colors.tweetBackground,
+    backgroundColor: focus ? Colors.white : Colors.tweetBackground,
+    borderColor: focus ? Colors.twitterBlue : Colors.tweetBackground,
   };
 
   return (
     <View style={styles.content}>
       <ArrowButton onPress={blurInput} />
       <View style={[styles.inputWrapper, inputStyle]}>
-        <Icon name={'magnifier'} size={20} color={Colors.grey} />
+        <Icon
+          name={'magnifier'}
+          size={20}
+          color={focus ? Colors.twitterBlue : Colors.grey}
+        />
         <TextInput
           ref={setRef}
           value={value}
@@ -78,9 +91,7 @@ const SearchHeader = ({
           onSubmitEditing={onSubmit}
           style={styles.input}
         />
-        {value && inputRef.current?.isFocused() ? (
-          <CloseButton onPress={clearText} />
-        ) : null}
+        {value && focus ? <CloseButton onPress={clearText} /> : null}
       </View>
       <HorizontalDots onPress={toggleSettingModal} />
       <SettingModal isVisible={showSetting} closeModal={toggleSettingModal} />

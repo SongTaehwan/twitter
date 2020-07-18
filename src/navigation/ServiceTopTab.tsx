@@ -15,7 +15,7 @@ const tabBarOptions: MaterialTopTabBarOptions = {
     textTransform: 'none',
     fontSize: 15,
   },
-  pressColor: 'rgba(27, 148, 224, 0.1)',
+  pressColor: Colors.rippleColor,
   indicatorStyle: {
     backgroundColor: Colors.twitterBlue,
   },

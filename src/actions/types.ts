@@ -2,3 +2,4 @@ export const ENABLE_LOADER = 'ENABLE_LOADER';
 export const DISABLE_LOADER = 'DISABLE_LOADER';
 export const ADD_HISTORY = 'ADD_HISTORY';
 export const REMOVE_HISTORY = 'REMOVE_HISTORY';
+export const RESET_HISTORY = 'RESET_HISTORY';

@@ -17,9 +17,9 @@
       "*": ["node_modules/*"],
       "@models/*": ["models/*"],
       "@screens/*": ["screens/*"],
+      "@actions/*": ["actions/*"],
       "@reducers/*": ["reducers/*"],
       "@selectors/*": ["selectors/*"],
-      "@actions": ["actions/index.ts"],
       "@constants": ["constants/index.ts"],
       "@navigation": ["navigation/index.ts"],
       "@components": ["components/index.ts"]

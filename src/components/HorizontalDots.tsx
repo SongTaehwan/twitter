@@ -13,7 +13,7 @@ const HorizontalDots = ({ onPress }: HorizontalDotsProps) => {
     <RectButton
       style={styles.container}
       underlayColor={Colors.anchorColor}
-      rippleColor={'rgba(27, 148, 224, 0.1)'}
+      rippleColor={Colors.rippleColor}
       onPress={onPress}>
       <Icon
         name={'dots-three-horizontal'}

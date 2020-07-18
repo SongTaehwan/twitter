@@ -7,3 +7,9 @@ export interface Store {
   loadingState: LoadingState;
   tweets: TweetState;
 }
+
+export interface HistoryItem {
+  id: number;
+  keyword: string;
+  thumbnail: string;
+}

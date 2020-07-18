@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import TabHeader from '../TabHeader';
 import { Store } from '@models/store';
-import { getLoadingState, getLoadingStatus } from '@selectors/loading';
+import { getLoadingStatus } from '@selectors/loading';
 
-const mapStateToProps = (state: Store) => getLoadingStatus(state);
+const mapStateToProps = (state: Store) => ({
+  isLoading: getLoadingStatus(state),
+});
 
 const mapDispatchToProps = {
   // ... normally is an object full of action creators

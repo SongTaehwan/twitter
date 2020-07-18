@@ -13,8 +13,8 @@ const ArrowButton = ({ dircetion = 'left', onPress }: ArrowProps) => {
   return (
     <RectButton
       style={styles.container}
+      rippleColor={Colors.rippleColor}
       underlayColor={Colors.anchorColor}
-      rippleColor={'rgba(27, 148, 224, 0.1)'}
       onPress={onPress}>
       <Icon name={`arrow${dircetion}`} color={Colors.twitterBlue} size={22} />
     </RectButton>
