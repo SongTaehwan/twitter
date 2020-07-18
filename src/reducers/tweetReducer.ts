@@ -5,4 +5,4 @@ export interface TwitReducerState {}
 
 const initialState = {};
 
-export const twitReducer = createReducer(initialState, {});
+export const tweetReducer = createReducer(initialState, {});

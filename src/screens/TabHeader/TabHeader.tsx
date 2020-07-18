@@ -1,33 +1,20 @@
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Dimensions,
-  ScrollView,
-  Text,
-} from 'react-native';
 import { useSafeArea } from 'react-native-safe-area-context';
 import React, { createRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Colors } from '@constants';
 import SearchHeader from './SearchHeader';
-import SettingModal from './SettingModal';
+import SearchHistory from './containers/SearchHistoryContainer';
 
 interface TabHeaderProps {}
 
-const SCREEN_WIDTH = Dimensions.get('screen').width;
-const SCREEN_HEIGHT = Dimensions.get('screen').height;
-
-const TabHeader = (props: TabHeaderProps) => {
+// TODO: Async Action and no subscribe to store
+const TabHeader = ({}: TabHeaderProps) => {
   const { top: safeAreaTop } = useSafeArea();
   const [containerYOffset, setPosition] = useState(0);
-  const [showSetting, setShowSetting] = useState(false);
-  const [focused, setFocus] = useState(false);
-  const [query, setQuery] = useState('');
-  const containerRef = createRef<View>();
 
-  const toggleSettingModal = () => {
-    setShowSetting((prev) => !prev);
-  };
+  const [focused, setFocus] = useState(false);
+  const [text, setText] = useState('');
+  const containerRef = createRef<View>();
 
   const getContainerPosition = () => {
     if (containerRef.current && containerYOffset === 0) {
@@ -40,12 +27,12 @@ const TabHeader = (props: TabHeaderProps) => {
     }
   };
 
-  const onChangeText = (text: string) => {
-    setQuery(text);
+  const onChangeText = (input: string) => {
+    setText(input);
   };
 
   const onCleaText = () => {
-    setQuery('');
+    setText('');
   };
 
   const onFocusInput = () => {
@@ -60,45 +47,20 @@ const TabHeader = (props: TabHeaderProps) => {
     onBlurInput();
   };
 
-  const inputStyle = {
-    backgroundColor: focused ? Colors.white : Colors.tweetBackground,
-    borderColor: focused ? Colors.twitterBlue : Colors.tweetBackground,
-  };
-
   return (
     <View
       style={styles.container}
       ref={containerRef}
       onLayout={getContainerPosition}>
       <SearchHeader
-        value={query}
+        value={text}
         onFocus={onFocusInput}
         onBackButtonPress={onBlurInput}
         onChangeText={onChangeText}
         onClearButtonPress={onCleaText}
-        inputContainerStyle={inputStyle}
-        onDotsPress={toggleSettingModal}
         onSubmit={handleOnSubmit}
       />
-      {focused ? (
-        <View
-          style={[
-            styles.searchHistory,
-            {
-              top: containerYOffset,
-              height: SCREEN_HEIGHT - containerYOffset,
-            },
-          ]}>
-          <ScrollView bounces={false}>
-            {/* TODO: History mode, Dynamic search result */}
-            <View style={{ height: 200 }}>
-              <Text>History</Text>
-            </View>
-          </ScrollView>
-        </View>
-      ) : null}
-
-      <SettingModal isVisible={showSetting} closeModal={toggleSettingModal} />
+      {focused ? <SearchHistory parentYOffset={containerYOffset} /> : null}
     </View>
   );
 };
@@ -108,11 +70,5 @@ export default TabHeader;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.white,
-  },
-  searchHistory: {
-    position: 'absolute',
-    zIndex: 10,
-    backgroundColor: 'white',
-    width: SCREEN_WIDTH,
   },
 });

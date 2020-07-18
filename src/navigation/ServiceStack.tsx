@@ -22,10 +22,10 @@ const tabHeaderStyle = {
 const ServiceStack = createStackNavigator<Routes>();
 
 const ServiceStackNavigator = (): JSX.Element => {
-  const isLoading = useSelector(
-    (state: { loadingReducer: LoadingReducerState }) =>
-      state.loadingReducer.isLoading,
-  );
+  // const isLoading = useSelector(
+  //   (state: { loadingReducer: LoadingReducerState }) =>
+  //     state.loadingReducer.isLoading,
+  // );
 
   return (
     <ServiceStack.Navigator>

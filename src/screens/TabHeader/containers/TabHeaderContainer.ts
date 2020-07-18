@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import TabHeader from './TabHeader';
+import TabHeader from '../TabHeader';
 
 const mapStateToProps = (state, ownProps) => {
   return {};

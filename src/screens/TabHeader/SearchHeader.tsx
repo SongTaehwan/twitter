@@ -1,20 +1,8 @@
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
-import React, {
-  forwardRef,
-  useState,
-  createRef,
-  useEffect,
-  useRef,
-} from 'react';
-import HorizontalDots from '../../components/HorizontalDots';
-import ArrowButton from '../../components/ArrowButton';
+import { StyleSheet, View, TextInput } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { HorizontalDots, ArrowButton } from '@components';
+import SettingModal from './SettingModal';
 import CloseButton from './CloseButton';
 import { Colors } from '@constants';
 
@@ -25,8 +13,6 @@ interface SearchBarProps {
   onBackButtonPress?(): void;
   onClearButtonPress?(): void;
   onChangeText?(text: string): void;
-  inputContainerStyle?: StyleProp<ViewStyle>;
-  onDotsPress?(): void;
   onSubmit?(): void;
 }
 
@@ -34,13 +20,12 @@ const SearchHeader = ({
   value,
   onFocus = () => null,
   onBlur = () => null,
-  onClearButtonPress = () => null,
   onBackButtonPress = () => null,
-  inputContainerStyle,
+  onClearButtonPress = () => null,
   onChangeText,
-  onDotsPress = () => null,
   onSubmit,
 }: SearchBarProps) => {
+  const [showSetting, setShowSetting] = useState(false);
   const inputRef = useRef<TextInput>();
 
   const setRef = (node: TextInput) => {
@@ -63,10 +48,21 @@ const SearchHeader = ({
     }
   };
 
+  const toggleSettingModal = () => {
+    setShowSetting((prev) => !prev);
+  };
+
+  const isFocused = inputRef.current?.isFocused();
+
+  const inputStyle = {
+    backgroundColor: isFocused ? Colors.white : Colors.tweetBackground,
+    borderColor: isFocused ? Colors.twitterBlue : Colors.tweetBackground,
+  };
+
   return (
     <View style={styles.content}>
       <ArrowButton onPress={blurInput} />
-      <View style={[styles.inputWrapper, inputContainerStyle]}>
+      <View style={[styles.inputWrapper, inputStyle]}>
         <Icon name={'magnifier'} size={20} color={Colors.grey} />
         <TextInput
           ref={setRef}
@@ -82,11 +78,12 @@ const SearchHeader = ({
           onSubmitEditing={onSubmit}
           style={styles.input}
         />
-        {value && inputRef.current?.isFocused ? (
+        {value && inputRef.current?.isFocused() ? (
           <CloseButton onPress={clearText} />
         ) : null}
       </View>
-      <HorizontalDots onPress={onDotsPress} />
+      <HorizontalDots onPress={toggleSettingModal} />
+      <SettingModal isVisible={showSetting} closeModal={toggleSettingModal} />
     </View>
   );
 };
