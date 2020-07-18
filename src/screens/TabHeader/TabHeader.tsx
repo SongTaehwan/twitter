@@ -17,13 +17,12 @@ interface TabHeaderProps {}
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 
-const TabHeader = ({}: TabHeaderProps) => {
+const TabHeader = (props: TabHeaderProps) => {
   const { top: safeAreaTop } = useSafeArea();
   const [containerYOffset, setPosition] = useState(0);
-  const [query, setQuery] = useState('');
-  const [focused, setFocus] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
-  const inputRef = createRef<TextInput>();
+  const [focused, setFocus] = useState(false);
+  const [query, setQuery] = useState('');
   const containerRef = createRef<View>();
 
   const toggleSettingModal = () => {
@@ -45,19 +44,20 @@ const TabHeader = ({}: TabHeaderProps) => {
     setQuery(text);
   };
 
-  const clearText = () => {
-    if (inputRef.current) {
-      inputRef.current.clear();
-    }
+  const onCleaText = () => {
+    setQuery('');
   };
 
   const onFocusInput = () => {
     setFocus(true);
   };
 
-  const blurInput = () => {
+  const onBlurInput = () => {
     setFocus(false);
-    inputRef.current?.blur();
+  };
+
+  const handleOnSubmit = () => {
+    onBlurInput();
   };
 
   const inputStyle = {
@@ -71,14 +71,14 @@ const TabHeader = ({}: TabHeaderProps) => {
       ref={containerRef}
       onLayout={getContainerPosition}>
       <SearchHeader
-        ref={inputRef}
         value={query}
         onFocus={onFocusInput}
-        onBackButtonPress={blurInput}
+        onBackButtonPress={onBlurInput}
         onChangeText={onChangeText}
-        onClearButtonPress={clearText}
+        onClearButtonPress={onCleaText}
         inputContainerStyle={inputStyle}
         onDotsPress={toggleSettingModal}
+        onSubmit={handleOnSubmit}
       />
       {focused ? (
         <View
@@ -91,12 +91,6 @@ const TabHeader = ({}: TabHeaderProps) => {
           ]}>
           <ScrollView bounces={false}>
             {/* TODO: History mode, Dynamic search result */}
-            <View style={{ height: 200 }}>
-              <Text>History</Text>
-            </View>
-            <View style={{ height: 200 }}>
-              <Text>History</Text>
-            </View>
             <View style={{ height: 200 }}>
               <Text>History</Text>
             </View>

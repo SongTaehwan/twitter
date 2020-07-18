@@ -2,43 +2,16 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
-import { Platform } from 'react-native';
 import { useSelector } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import { LoadingReducerState } from '@reducers/loadingReducer';
-import Splash from '@screens/Splash';
 import ServiceTopTabNavigator from './ServiceTopTab';
+import TabHeader from '@screens/TabHeader';
+import Splash from '@screens/Splash';
 import { Routes } from './routes';
-import { TabHeader } from '@components';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const tabHeaderStyle = {
-  headerTitleContainerStyle: {
-    ...Platform.select({
-      ios: {
-        left: 0,
-        paddingVertical: 3,
-      },
-      android: {
-        left: 48,
-        paddingVertical: 9,
-      },
-    }),
-    flex: 1,
-    flexDirection: 'row',
-    right: 48,
-    height: '100%',
-    paddingHorizontal: 20,
-    marginRight: 0,
-    marginLeft: Platform.OS === 'ios' ? 48 : 0,
-  },
-  headerLeftContainerStyle: {
-    paddingLeft: 10,
-  },
-  headerRightContainerStyle: {
-    position: Platform.OS === 'ios' ? 'relative' : 'absolute',
-    paddingRight: 10,
-  },
   headerStyle: {
     elevation: 0,
     shadowOpacity: 0,
@@ -59,7 +32,11 @@ const ServiceStackNavigator = (): JSX.Element => {
       <ServiceStack.Screen
         name="Splash"
         component={Splash}
-        options={{ headerShown: false, gestureEnabled: false }}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+          ...tabHeaderStyle,
+        }}
       />
       <ServiceStack.Screen
         name="Main"

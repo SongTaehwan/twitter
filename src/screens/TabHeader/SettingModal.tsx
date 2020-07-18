@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import Modal from 'react-native-modal';
 import React from 'react';
 import { Colors } from '@constants';
-import Button from '../Button';
+import Button from '../../components/Button';
 import { MenuButton } from '@components';
 
 interface SettingModal {
