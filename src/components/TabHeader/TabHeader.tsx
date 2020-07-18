@@ -5,14 +5,12 @@ import {
   Dimensions,
   ScrollView,
   Text,
-  KeyboardAvoidingView,
 } from 'react-native';
+import { useSafeArea } from 'react-native-safe-area-context';
 import React, { createRef, useState } from 'react';
 import { Colors } from '@constants';
-
 import SearchHeader from './SearchHeader';
 import SettingModal from './SettingModal';
-import { useSafeArea } from 'react-native-safe-area-context';
 
 interface TabHeaderProps {}
 
@@ -83,7 +81,7 @@ const TabHeader = ({}: TabHeaderProps) => {
         onDotsPress={toggleSettingModal}
       />
       {focused ? (
-        <KeyboardAvoidingView
+        <View
           style={[
             styles.searchHistory,
             {
@@ -103,7 +101,7 @@ const TabHeader = ({}: TabHeaderProps) => {
               <Text>History</Text>
             </View>
           </ScrollView>
-        </KeyboardAvoidingView>
+        </View>
       ) : null}
 
       <SettingModal isVisible={showSetting} closeModal={toggleSettingModal} />

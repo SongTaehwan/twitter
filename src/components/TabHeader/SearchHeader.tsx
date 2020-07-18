@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   inputWrapper: {
+    marginHorizontal: 18,
     marginVertical: 10,
     flex: 1,
     flexDirection: 'row',

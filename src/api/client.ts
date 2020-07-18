@@ -7,7 +7,6 @@ const client = axios.create({
 });
 
 client.interceptors.request.use((config: AxiosRequestConfig) => {
-  console.log(config);
   config.headers.Authorization = `Bearer ${Config.BEARER_TOKEN}`;
   return config;
 });
