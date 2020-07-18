@@ -3,7 +3,7 @@ import {
   MaterialTopTabBarOptions,
 } from '@react-navigation/material-top-tabs';
 import React from 'react';
-import Tweets from '@screens/Tweets';
+import TweetList from '@screens/TweetList';
 import { TabRoutes } from './routes';
 import { Colors } from '@constants';
 
@@ -29,11 +29,11 @@ function ServiceTopTabNavigator() {
       lazy
       initialRouteName="Top"
       tabBarOptions={tabBarOptions}>
-      <ServiceTopTab.Screen name="Top" component={Tweets} />
-      <ServiceTopTab.Screen name="Latest" component={Tweets} />
-      <ServiceTopTab.Screen name="People" component={Tweets} />
-      <ServiceTopTab.Screen name="Photos" component={Tweets} />
-      <ServiceTopTab.Screen name="Videos" component={Tweets} />
+      <ServiceTopTab.Screen name="Top" component={TweetList} />
+      <ServiceTopTab.Screen name="Latest" component={TweetList} />
+      <ServiceTopTab.Screen name="People" component={TweetList} />
+      <ServiceTopTab.Screen name="Photos" component={TweetList} />
+      <ServiceTopTab.Screen name="Videos" component={TweetList} />
     </ServiceTopTab.Navigator>
   );
 }

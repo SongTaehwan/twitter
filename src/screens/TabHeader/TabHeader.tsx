@@ -4,14 +4,18 @@ import React, { createRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from '@constants';
 import SearchHistory from './containers/SearchHistoryContainer';
+import { addHistory } from '@actions/searchHistoryAction';
 import { getLoadingStatus } from '@selectors/loading';
 import SearchHeader from './SearchHeader';
 import { Store } from '@models/store';
-import { addHistory } from '@actions/searchHistoryAction';
 import { generateId } from '@utils';
 
-// TODO: Async Action and no subscribe to store
-const TabHeader = () => {
+interface TabHeaderProps {
+  tabName: string;
+}
+
+// TODO: 검색 시 데이터 패칭
+const TabHeader = ({ tabName }: TabHeaderProps) => {
   const isLoading = useSelector((state: Store) => getLoadingStatus(state));
   const dispatch = useDispatch();
   const { top: safeAreaTop } = useSafeArea();
@@ -48,7 +52,9 @@ const TabHeader = () => {
   };
 
   const handleOnSubmit = () => {
+    setOpenHistory(false);
     dispatch(addHistory({ keyword: text, id: generateId() }));
+    // TODO: tab name에 따라 쿼리조건을 넣어 데이터 패칭
   };
 
   return (

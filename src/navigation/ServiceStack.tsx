@@ -8,6 +8,7 @@ import ServiceTopTabNavigator from './ServiceTopTab';
 import TabHeader from '@screens/TabHeader';
 import Splash from '@screens/Splash';
 import { Routes } from './routes';
+import { navigationRef } from './NavigationHelper';
 
 const tabHeaderStyle = {
   headerStyle: {
@@ -35,11 +36,14 @@ const ServiceStackNavigator = (): JSX.Element => {
         name="Main"
         component={ServiceTopTabNavigator}
         options={{
-          header: () => (
-            <SafeAreaView edges={['top']}>
-              <TabHeader />
-            </SafeAreaView>
-          ),
+          header: () => {
+            const currentTab = navigationRef.current!.getCurrentRoute()!.name;
+            return (
+              <SafeAreaView edges={['top']}>
+                <TabHeader tabName={currentTab} />
+              </SafeAreaView>
+            );
+          },
         }}
       />
     </ServiceStack.Navigator>

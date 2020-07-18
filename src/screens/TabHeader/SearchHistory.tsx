@@ -2,8 +2,8 @@ import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MagnifierIcon from 'react-native-vector-icons/SimpleLineIcons';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { RectButton } from 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -13,10 +13,10 @@ import {
   ScrollView,
   KeyboardEvent,
 } from 'react-native';
+import { removeHistory, resetHistory } from '@actions/searchHistoryAction';
 import { HistoryItem, Store } from '@models/store';
 import { getHistory } from '@selectors/history';
 import { Colors } from '@constants';
-import { removeHistory, resetHistory } from '@actions/searchHistoryAction';
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
@@ -25,7 +25,6 @@ interface SearchHistoryProps {
   parentYOffset: number;
 }
 
-// TODO: subscribe history data and get remove action
 const SearchHistroy = ({ parentYOffset }: SearchHistoryProps) => {
   const history = useSelector((state: Store) => getHistory(state));
   const dispatch = useDispatch();
@@ -49,6 +48,10 @@ const SearchHistroy = ({ parentYOffset }: SearchHistoryProps) => {
 
   const resetAllItems = () => {
     dispatch(resetHistory());
+  };
+
+  const fetchDataByKeyword = () => {
+    // TODO: 이전 키워드로 검색
   };
 
   const renderHistoryHeader = () => {

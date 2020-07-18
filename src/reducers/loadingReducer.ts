@@ -1,16 +1,16 @@
 import createReducer from './createReducer';
 import * as ActionType from '../actions/types';
-import { LoadingState } from '@models/reducers/loading';
+import { LoadingState, LoadingAction } from '@models/reducers/loading';
 
 const initialState: LoadingState = {
   isLoading: false,
 };
 
 export const loadingState = createReducer(initialState, {
-  [ActionType.ENABLE_LOADER](state: LoadingState) {
-    return { ...state, isLoading: true };
+  [ActionType.FETCH_DATA_LOADING](state: LoadingState, action: LoadingAction) {
+    return { ...state, isLoading: action.status };
   },
-  [ActionType.DISABLE_LOADER](state: LoadingState) {
+  [ActionType.FETCH_DATA_FAILURE](state: LoadingState) {
     return { ...state, isLoading: false };
   },
 });
