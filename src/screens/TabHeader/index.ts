@@ -1,1 +1,1 @@
-export { default } from './containers/TabHeaderContainer';
+export { default } from './TabHeader';

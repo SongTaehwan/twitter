@@ -15,6 +15,7 @@
     "esModuleInterop": true,
     "paths": {
       "*": ["node_modules/*"],
+      "@utils": ["utils/index.ts"],
       "@models/*": ["models/*"],
       "@screens/*": ["screens/*"],
       "@actions/*": ["actions/*"],

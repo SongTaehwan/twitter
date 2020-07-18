@@ -2,6 +2,8 @@ import CloseIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MagnifierIcon from 'react-native-vector-icons/SimpleLineIcons';
 import { useSafeArea } from 'react-native-safe-area-context';
 import { RectButton } from 'react-native-gesture-handler';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Text,
   View,
@@ -11,20 +13,22 @@ import {
   ScrollView,
   KeyboardEvent,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { HistoryItem } from '@models/store';
+import { HistoryItem, Store } from '@models/store';
+import { getHistory } from '@selectors/history';
 import { Colors } from '@constants';
+import { removeHistory, resetHistory } from '@actions/searchHistoryAction';
 
 const SCREEN_HEIGHT = Dimensions.get('screen').height;
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 
-interface Props {
+interface SearchHistoryProps {
   parentYOffset: number;
-  history: HistoryItem[];
 }
 
 // TODO: subscribe history data and get remove action
-const SearchHistroy = ({ history, parentYOffset }: Props) => {
+const SearchHistroy = ({ parentYOffset }: SearchHistoryProps) => {
+  const history = useSelector((state: Store) => getHistory(state));
+  const dispatch = useDispatch();
   const { bottom } = useSafeArea();
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
@@ -38,6 +42,15 @@ const SearchHistroy = ({ history, parentYOffset }: Props) => {
     };
   }, []);
 
+  const removeItem = (id: number) => {
+    console.log(id);
+    dispatch(removeHistory(id));
+  };
+
+  const resetAllItems = () => {
+    dispatch(resetHistory());
+  };
+
   const renderHistoryHeader = () => {
     if (!history.length) {
       return (
@@ -48,13 +61,13 @@ const SearchHistroy = ({ history, parentYOffset }: Props) => {
         </View>
       );
     } else {
-      return <ScrolllHeader />;
+      return <ScrolllHeader onClearItem={resetAllItems} />;
     }
   };
 
   const renderHistoryItem = () => {
     return history.map((item) => {
-      return <HistoryListItem key={item.id} {...item} />;
+      return <HistoryListItem key={item.id} {...item} onPress={removeItem} />;
     });
   };
 
@@ -77,21 +90,32 @@ const SearchHistroy = ({ history, parentYOffset }: Props) => {
   );
 };
 
-const ScrolllHeader = () => {
+const ScrolllHeader = ({ onClearItem }: { onClearItem?(): void }) => {
   return (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>Recent</Text>
       <RectButton
         style={styles.clearButton}
         rippleColor={Colors.rippleColor}
-        underlayColor={Colors.anchorColor}>
+        underlayColor={Colors.anchorColor}
+        onPress={onClearItem}>
         <Text style={styles.clearBtnTitle}>Clear all</Text>
       </RectButton>
     </View>
   );
 };
 
-const HistoryListItem = ({ thumbnail, keyword }: HistoryItem) => {
+interface HistoryListItemProps extends HistoryItem {
+  onPress?(id: number): void;
+}
+
+const HistoryListItem = ({ id, keyword, onPress }: HistoryListItemProps) => {
+  const handler = () => {
+    if (onPress) {
+      onPress(id);
+    }
+  };
+
   return (
     <View
       style={{
@@ -103,12 +127,11 @@ const HistoryListItem = ({ thumbnail, keyword }: HistoryItem) => {
         underlayColor={Colors.grey}
         rippleColor={Colors.tweetBackground}>
         <View style={styles.magnifierCover}>
-          {thumbnail ? null : (
-            <MagnifierIcon name={'magnifier'} size={18} color={Colors.grey} />
-          )}
+          <MagnifierIcon name={'magnifier'} size={18} color={Colors.grey} />
         </View>
         <Text style={styles.keyword}>{keyword}</Text>
         <RectButton
+          onPress={handler}
           style={styles.closeIconCover}
           underlayColor={Colors.anchorColor}
           rippleColor={Colors.rippleColor}>

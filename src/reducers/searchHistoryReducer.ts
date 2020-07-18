@@ -14,7 +14,7 @@ const initialState: HistoryState = {
 export const searchHistories = createReducer(initialState, {
   [ActionType.ADD_HISTORY](
     state: HistoryState,
-    { id, keyword, thumbnail }: HistoryAdditionAction,
+    { id, keyword }: HistoryAdditionAction,
   ) {
     return {
       allIds: [...state.allIds, id],
@@ -22,7 +22,6 @@ export const searchHistories = createReducer(initialState, {
         ...state.byIds,
         [id]: {
           keyword,
-          thumbnail,
         },
       },
     };
@@ -31,8 +30,12 @@ export const searchHistories = createReducer(initialState, {
     state: HistoryState,
     action: HistoryRemovalAction,
   ) {
+    const { [action.id]: _, ...withoutTargetItem } = state.byIds;
     return {
       allIds: state.allIds.filter((id) => id !== action.id),
+      byIds: {
+        ...withoutTargetItem,
+      },
     };
   },
   [ActionType.RESET_HISTORY]() {

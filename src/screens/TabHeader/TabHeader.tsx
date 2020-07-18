@@ -1,17 +1,22 @@
 import { useSafeArea } from 'react-native-safe-area-context';
+import { useSelector, useDispatch } from 'react-redux';
 import React, { createRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from '@constants';
 import SearchHistory from './containers/SearchHistoryContainer';
+import { getLoadingStatus } from '@selectors/loading';
 import SearchHeader from './SearchHeader';
-
-interface TabHeaderProps {}
+import { Store } from '@models/store';
+import { addHistory } from '@actions/searchHistoryAction';
+import { generateId } from '@utils';
 
 // TODO: Async Action and no subscribe to store
-const TabHeader = ({}: TabHeaderProps) => {
+const TabHeader = () => {
+  const isLoading = useSelector((state: Store) => getLoadingStatus(state));
+  const dispatch = useDispatch();
   const { top: safeAreaTop } = useSafeArea();
-  const [containerYOffset, setPosition] = useState(0);
   const [openHistory, setOpenHistory] = useState(false);
+  const [containerYOffset, setPosition] = useState(0);
   const [text, setText] = useState('');
   const containerRef = createRef<View>();
 
@@ -42,7 +47,9 @@ const TabHeader = ({}: TabHeaderProps) => {
     setOpenHistory(false);
   };
 
-  const handleOnSubmit = () => {};
+  const handleOnSubmit = () => {
+    dispatch(addHistory({ keyword: text, id: generateId() }));
+  };
 
   return (
     <View

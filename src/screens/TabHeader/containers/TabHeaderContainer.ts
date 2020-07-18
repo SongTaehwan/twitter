@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
-import TabHeader from '../TabHeader';
-import { Store } from '@models/store';
+import { addHistory } from '@actions/searchHistoryAction';
 import { getLoadingStatus } from '@selectors/loading';
+import { Store } from '@models/store';
+import TabHeader from '../TabHeader';
 
 const mapStateToProps = (state: Store) => ({
   isLoading: getLoadingStatus(state),
 });
 
-const mapDispatchToProps = {
-  // ... normally is an object full of action creators
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TabHeader);
+export default connect(mapStateToProps, { addHistory })(TabHeader);

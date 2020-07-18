@@ -11,5 +11,4 @@ export interface Store {
 export interface HistoryItem {
   id: number;
   keyword: string;
-  thumbnail: string;
 }
