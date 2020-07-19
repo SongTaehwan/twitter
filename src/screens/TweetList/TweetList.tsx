@@ -8,7 +8,11 @@ interface Props {}
 
 const TweetList = ({}: Props) => {
   const renderTweetItem = ({ item, index }) => {
-    return null;
+    return (
+      <View>
+        <Text>Test {index}</Text>
+      </View>
+    );
   };
 
   return (

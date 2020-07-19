@@ -1,36 +1,32 @@
-import {
-  FETCH_DATA_LOADING,
-  FETCH_DATA_FAILURE,
-  FETCH_DATA_SUCCESS,
-} from './types';
+import { ADD_TWEETS } from './types';
 import client from '../api/client';
+import { fetchDataLoading, fetchDataFailure } from './loadingAction';
 
 export const fetchTweet = (url: string) => {
   // TODO: Reducer Separate?
-  fetchDataLoading(true);
-
   return async (dispatch) => {
+    dispatch(fetchDataLoading(true));
+
     try {
-      const result = await client.get(url);
+      const result = await client.get(url, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
       const { data } = result;
+      console.log(data.search_metadata.query);
+      console.log(data);
+      // dispatch(addTweets());
+      dispatch(fetchDataLoading(false));
     } catch (error) {
       console.log(error);
-      fetchDataFailure(error.message);
+      dispatch(fetchDataFailure(error.message));
     }
   };
 };
 
-export const fetchDataLoading = (status: boolean) => ({
-  type: FETCH_DATA_LOADING,
-  status,
-});
-
-export const fetchDataSuccess = (data: any) => ({
-  type: FETCH_DATA_SUCCESS,
-  data,
-});
-
-export const fetchDataFailure = (message: string) => ({
-  type: FETCH_DATA_FAILURE,
-  message,
-});
+export const addTweets = (data) => {
+  return {
+    type: ADD_TWEETS,
+  };
+};

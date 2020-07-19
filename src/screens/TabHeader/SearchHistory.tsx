@@ -23,9 +23,10 @@ const SCREEN_WIDTH = Dimensions.get('screen').width;
 
 interface SearchHistoryProps {
   parentYOffset: number;
+  onPressItem?(keyword: string): void;
 }
 
-const SearchHistroy = ({ parentYOffset }: SearchHistoryProps) => {
+const SearchHistroy = ({ parentYOffset, onPressItem }: SearchHistoryProps) => {
   const history = useSelector((state: Store) => getHistory(state));
   const dispatch = useDispatch();
   const { bottom } = useSafeArea();
@@ -41,7 +42,7 @@ const SearchHistroy = ({ parentYOffset }: SearchHistoryProps) => {
     };
   }, []);
 
-  const removeItem = (id: number) => {
+  const removeItem = (id: string) => {
     console.log(id);
     dispatch(removeHistory(id));
   };
@@ -50,7 +51,7 @@ const SearchHistroy = ({ parentYOffset }: SearchHistoryProps) => {
     dispatch(resetHistory());
   };
 
-  const fetchDataByKeyword = () => {
+  const fetchDataByKeyword = (keyword: string) => {
     // TODO: 이전 키워드로 검색
   };
 
@@ -70,7 +71,14 @@ const SearchHistroy = ({ parentYOffset }: SearchHistoryProps) => {
 
   const renderHistoryItem = () => {
     return history.map((item) => {
-      return <HistoryListItem key={item.id} {...item} onPress={removeItem} />;
+      return (
+        <HistoryListItem
+          key={item.id}
+          {...item}
+          onDelete={removeItem}
+          onPress={onPressItem}
+        />
+      );
     });
   };
 
@@ -109,13 +117,25 @@ const ScrolllHeader = ({ onClearItem }: { onClearItem?(): void }) => {
 };
 
 interface HistoryListItemProps extends HistoryItem {
-  onPress?(id: number): void;
+  onDelete?(id: string): void;
+  onPress?(keyword: string): void;
 }
 
-const HistoryListItem = ({ id, keyword, onPress }: HistoryListItemProps) => {
-  const handler = () => {
+const HistoryListItem = ({
+  id,
+  keyword,
+  onDelete,
+  onPress,
+}: HistoryListItemProps) => {
+  const handleDeletion = () => {
+    if (onDelete) {
+      onDelete(id);
+    }
+  };
+
+  const handleOnPressItem = () => {
     if (onPress) {
-      onPress(id);
+      onPress(keyword);
     }
   };
 
@@ -128,13 +148,14 @@ const HistoryListItem = ({ id, keyword, onPress }: HistoryListItemProps) => {
       <RectButton
         style={styles.historyItemContainer}
         underlayColor={Colors.grey}
-        rippleColor={Colors.tweetBackground}>
+        rippleColor={Colors.tweetBackground}
+        onPress={handleOnPressItem}>
         <View style={styles.magnifierCover}>
           <MagnifierIcon name={'magnifier'} size={18} color={Colors.grey} />
         </View>
         <Text style={styles.keyword}>{keyword}</Text>
         <RectButton
-          onPress={handler}
+          onPress={handleDeletion}
           style={styles.closeIconCover}
           underlayColor={Colors.anchorColor}
           rippleColor={Colors.rippleColor}>

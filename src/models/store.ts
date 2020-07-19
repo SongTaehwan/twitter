@@ -9,6 +9,6 @@ export interface Store {
 }
 
 export interface HistoryItem {
-  id: number;
+  id: string;
   keyword: string;
 }

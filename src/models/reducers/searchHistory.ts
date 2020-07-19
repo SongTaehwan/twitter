@@ -5,6 +5,6 @@ export type History = {
 export interface HistoryState {
   allIds: number[];
   byIds: {
-    [key: number]: History;
+    [key: string]: History;
   };
 }

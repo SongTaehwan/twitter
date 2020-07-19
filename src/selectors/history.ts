@@ -2,7 +2,7 @@ import { Store } from '@models/store';
 
 export const getHistoryState = (store: Store) => store.searchHistories;
 export const getHistoryIds = (store: Store) => getHistoryState(store).allIds;
-export const getHistoryById = (store: Store, id: number) => ({
+export const getHistoryById = (store: Store, id: string) => ({
   id,
   ...getHistoryState(store).byIds[id],
 });

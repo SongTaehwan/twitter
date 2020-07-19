@@ -16,6 +16,7 @@ module.exports = {
           '@actions': './src/actions',
           '@model': './src/model',
           '@utils': './src/utils',
+          '@api': './src/api',
         },
       },
     ],

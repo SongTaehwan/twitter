@@ -3,7 +3,6 @@ import Config from 'react-native-config';
 
 const client = axios.create({
   baseURL: Config.API_HOST,
-  responseType: 'json',
 });
 
 client.interceptors.request.use((config: AxiosRequestConfig) => {

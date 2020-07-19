@@ -3,18 +3,31 @@ import { useSelector, useDispatch } from 'react-redux';
 import React, { createRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from '@constants';
-import SearchHistory from './containers/SearchHistoryContainer';
 import { addHistory } from '@actions/searchHistoryAction';
 import { getLoadingStatus } from '@selectors/loading';
+import { fetchTweet } from '@actions/tweetAction';
+import SearchHistory from './SearchHistory';
 import SearchHeader from './SearchHeader';
 import { Store } from '@models/store';
 import { generateId } from '@utils';
+import {
+  getTopSearchURL,
+  getPhotoSearchURL,
+  getVideoSearchURL,
+  getPeopleSearchURL,
+  getLatestSearchURL,
+} from '@api/endpoints';
 
 interface TabHeaderProps {
   tabName: string;
 }
 
-// TODO: 검색 시 데이터 패칭
+const TOP = 'Top',
+  LATEST = 'Latest',
+  PEOPLE = 'People',
+  PHOTOS = 'Photos',
+  VIDEOS = 'Videos';
+
 const TabHeader = ({ tabName }: TabHeaderProps) => {
   const isLoading = useSelector((state: Store) => getLoadingStatus(state));
   const dispatch = useDispatch();
@@ -52,9 +65,36 @@ const TabHeader = ({ tabName }: TabHeaderProps) => {
   };
 
   const handleOnSubmit = () => {
-    setOpenHistory(false);
+    closeHistory();
     dispatch(addHistory({ keyword: text, id: generateId() }));
-    // TODO: tab name에 따라 쿼리조건을 넣어 데이터 패칭
+    dispatch(fetchTweet(getUrl(text)));
+  };
+
+  const handleOnPressFetchData = (keyword: string) => {
+    closeHistory();
+    dispatch(fetchTweet(getUrl(keyword)));
+  };
+
+  const getUrl = (keyword: string): string => {
+    switch (tabName) {
+      case TOP:
+        console.log('top!');
+        return getTopSearchURL(keyword);
+      case LATEST:
+        console.log('Lastest!');
+        return getLatestSearchURL(keyword);
+      case PEOPLE:
+        console.log('People!');
+        return getPeopleSearchURL(keyword);
+      case PHOTOS:
+        console.log('Photos!');
+        return getPhotoSearchURL(keyword);
+      case VIDEOS:
+        console.log('Video!');
+        return getVideoSearchURL(keyword);
+      default:
+        throw new Error('Tab name is not valid!');
+    }
   };
 
   return (
@@ -70,7 +110,12 @@ const TabHeader = ({ tabName }: TabHeaderProps) => {
         onClearButtonPress={onCleaText}
         onSubmit={handleOnSubmit}
       />
-      {openHistory ? <SearchHistory parentYOffset={containerYOffset} /> : null}
+      {openHistory ? (
+        <SearchHistory
+          parentYOffset={containerYOffset}
+          onPressItem={handleOnPressFetchData}
+        />
+      ) : null}
     </View>
   );
 };

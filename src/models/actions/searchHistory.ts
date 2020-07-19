@@ -1,8 +1,8 @@
 export interface HistoryAdditionAction {
-  id: number;
+  id: string;
   keyword: string;
 }
 
 export interface HistoryRemovalAction {
-  id: number;
+  id: string;
 }

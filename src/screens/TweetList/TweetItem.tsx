@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 
-interface Props {}
+interface TweetItemProps {}
 
-const TweetItem = (props: Props) => {
+const TweetItem = (props: TweetItemProps): JSX.Element => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>

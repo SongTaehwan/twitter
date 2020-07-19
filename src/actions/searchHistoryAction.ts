@@ -7,7 +7,7 @@ export const addHistory = ({ keyword, id }: HistoryAdditionAction) => ({
   id,
 });
 
-export const removeHistory = (id: number) => ({
+export const removeHistory = (id: string) => ({
   type: REMOVE_HISTORY,
   id,
 });
