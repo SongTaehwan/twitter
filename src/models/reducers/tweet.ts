@@ -1,3 +1,21 @@
+export interface User {
+  id?: string;
+  name: string;
+  thumbnail: string;
+  screenName: string;
+}
+
+export interface Tweet {
+  id?: string;
+  text: string;
+  hashTags: string[];
+  createdAt: Date;
+  favoriteCount: number;
+  retweetCount: number;
+  images: string[];
+  user: string | User;
+}
+
 export interface TweetState {
   allTopTweetIds: string[];
   allLatestTweetIds: string[];
@@ -6,21 +24,9 @@ export interface TweetState {
   allVideoTweetIds: string[];
   allUserIds: string[];
   tweetByIds: {
-    [id: string]: {
-      text: string;
-      hashTags: string[];
-      userId: string;
-      createdAt: Date;
-      favoriteCount: number;
-      retweetCount: number;
-      images: string[];
-    };
+    [id: string]: Tweet;
   };
   userByIds: {
-    [id: string]: {
-      name: string;
-      thumbnail: string;
-      screenName: string;
-    };
+    [id: string]: User;
   };
 }

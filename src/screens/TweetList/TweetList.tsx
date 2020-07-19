@@ -3,27 +3,29 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { FlatList } from 'react-native-gesture-handler';
+import { Store } from '@models/store';
+import { getTopTweets } from '@selectors/tweets';
+import TweetItem from './TweetItem';
 
 interface TweetListProps {}
 
 const TweetList = ({}: TweetListProps) => {
   const dispatch = useDispatch();
-  const tweets = useSelector(() => null);
+  const tweets = useSelector((state: Store) => getTopTweets(state));
+  console.log(tweets);
 
-  const renderTweetItem = ({ item, index }) => {
-    return (
-      <View>
-        <Text>Test {index}</Text>
-      </View>
-    );
+  const renderTweetItem = ({ item }) => {
+    return <TweetItem data={item} />;
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.emptyTitle}>
-        {'Try searching for people, topics, or keywords'}
-      </Text>
-      <FlatList data={[]} renderItem={renderTweetItem} />
+      {!tweets.length && (
+        <Text style={styles.emptyTitle}>
+          {'Try searching for people, topics, or keywords'}
+        </Text>
+      )}
+      <FlatList data={tweets} renderItem={renderTweetItem} />
     </View>
   );
 };
