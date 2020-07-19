@@ -51,10 +51,6 @@ const SearchHistroy = ({ parentYOffset, onPressItem }: SearchHistoryProps) => {
     dispatch(resetHistory());
   };
 
-  const fetchDataByKeyword = (keyword: string) => {
-    // TODO: 이전 키워드로 검색
-  };
-
   const renderHistoryHeader = () => {
     if (!history.length) {
       return (

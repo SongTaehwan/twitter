@@ -3,8 +3,9 @@ export type History = {
 };
 
 export interface HistoryState {
-  allIds: number[];
+  searchWord: string;
+  allIds: string[];
   byIds: {
-    [key: string]: History;
+    [id: string]: History;
   };
 }

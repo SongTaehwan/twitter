@@ -1,6 +1,6 @@
 import { useSafeArea } from 'react-native-safe-area-context';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { createRef, useState } from 'react';
+import React, { createRef, useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from '@constants';
 import { addHistory } from '@actions/searchHistoryAction';
@@ -17,9 +17,11 @@ import {
   getPeopleSearchURL,
   getLatestSearchURL,
 } from '@api/endpoints';
+import { getHistoryState } from '@selectors/history';
 
+export type Tabs = 'Top' | 'Latest' | 'Photos' | 'Videos';
 interface TabHeaderProps {
-  tabName: string;
+  tabName: Tabs;
 }
 
 const TOP = 'Top',
@@ -29,13 +31,21 @@ const TOP = 'Top',
   VIDEOS = 'Videos';
 
 const TabHeader = ({ tabName }: TabHeaderProps) => {
-  const isLoading = useSelector((state: Store) => getLoadingStatus(state));
+  const searchWord = useSelector(
+    (state: Store) => getHistoryState(state).searchWord,
+  );
   const dispatch = useDispatch();
   const { top: safeAreaTop } = useSafeArea();
   const [openHistory, setOpenHistory] = useState(false);
   const [containerYOffset, setPosition] = useState(0);
   const [text, setText] = useState('');
   const containerRef = createRef<View>();
+
+  useEffect(() => {
+    if (searchWord !== text) {
+      setText(searchWord);
+    }
+  }, [searchWord]);
 
   const getContainerPosition = () => {
     if (containerRef.current && containerYOffset === 0) {
@@ -67,12 +77,12 @@ const TabHeader = ({ tabName }: TabHeaderProps) => {
   const handleOnSubmit = () => {
     closeHistory();
     dispatch(addHistory({ keyword: text, id: generateId() }));
-    dispatch(fetchTweet(getUrl(text)));
+    dispatch(fetchTweet(getUrl(text), tabName));
   };
 
   const handleOnPressFetchData = (keyword: string) => {
     closeHistory();
-    dispatch(fetchTweet(getUrl(keyword)));
+    dispatch(fetchTweet(getUrl(keyword), tabName));
   };
 
   const getUrl = (keyword: string): string => {

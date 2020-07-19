@@ -7,6 +7,7 @@ import {
 } from '@models/actions/searchHistory';
 
 const initialState: HistoryState = {
+  searchWord: '',
   allIds: [],
   byIds: {},
 };

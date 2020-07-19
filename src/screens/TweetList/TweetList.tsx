@@ -4,9 +4,12 @@ import { Colors } from '@constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { FlatList } from 'react-native-gesture-handler';
 
-interface Props {}
+interface TweetListProps {}
 
-const TweetList = ({}: Props) => {
+const TweetList = ({}: TweetListProps) => {
+  const dispatch = useDispatch();
+  const tweets = useSelector(() => null);
+
   const renderTweetItem = ({ item, index }) => {
     return (
       <View>
